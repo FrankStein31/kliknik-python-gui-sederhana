@@ -1,3 +1,9 @@
+"""
+Pemeriksaan Class - Model untuk data pemeriksaan pasien
+Mengelola CRUD operations untuk data pemeriksaan dan resep
+
+Class ini standalone untuk mengelola data pemeriksaan medis.
+"""
 import mysql.connector
 from datetime import datetime
 
@@ -15,7 +21,33 @@ cursor = db.cursor()
 
 
 class Pemeriksaan:
+    """
+    Pemeriksaan class untuk mengelola data pemeriksaan medis pasien.
+    
+    Class structure:
+    - Standalone class untuk data pemeriksaan
+    - Mengelola diagnosa, resep, dan pembayaran
+    - Terintegrasi dengan data Pasien dan Pendaftaran
+    
+    Attributes:
+        nik (str): NIK pasien yang diperiksa
+        diagnosa (str): Hasil diagnosa dokter
+        resep (str): Resep obat dari dokter
+        total_biaya (float): Total biaya pemeriksaan dan obat
+        total_obat (int): Jumlah item obat
+    """
+    
     def __init__(self, nik, diagnosa, resep, total_biaya, total_obat):
+        """
+        Constructor untuk Pemeriksaan class
+        
+        Args:
+            nik (str): NIK pasien
+            diagnosa (str): Hasil diagnosa
+            resep (str): Resep obat
+            total_biaya (float): Total biaya
+            total_obat (int): Jumlah obat
+        """
         self.nik = nik
         self.diagnosa = diagnosa
         self.resep = resep

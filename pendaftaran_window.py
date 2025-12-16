@@ -173,15 +173,16 @@ class PendaftaranWindow(QWidget):
         self.close()
     
     def show_menu_lainnya(self):
-        """Tampilkan menu lainnya"""
+        """Tampilkan menu lainnya untuk pasien"""
         from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton
         
         dialog = QDialog(self)
-        dialog.setWindowTitle("Menu Lainnya")
+        dialog.setWindowTitle("Menu Pasien")
         dialog.setMinimumWidth(300)
         
         layout = QVBoxLayout()
         
+        # Menu Profil Pribadi
         btn_profil = QPushButton("👤 Profil Saya")
         btn_profil.setMinimumHeight(50)
         btn_profil.setStyleSheet("""
@@ -201,25 +202,7 @@ class PendaftaranWindow(QWidget):
         btn_profil.clicked.connect(lambda: [dialog.close(), self.show_profil()])
         layout.addWidget(btn_profil)
         
-        btn_dokter = QPushButton("👨‍⚕️ Lihat Data Dokter")
-        btn_dokter.setMinimumHeight(50)
-        btn_dokter.setStyleSheet("""
-            QPushButton {
-                background: #27AE60;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 12px;
-                font-weight: bold;
-                font-size: 11pt;
-            }
-            QPushButton:hover {
-                background: #2ECC71;
-            }
-        """)
-        btn_dokter.clicked.connect(lambda: [dialog.close(), self.show_data_dokter()])
-        layout.addWidget(btn_dokter)
-        
+        # Menu Hasil Periksa
         btn_hasil = QPushButton("📋 Lihat Hasil Periksa")
         btn_hasil.setMinimumHeight(50)
         btn_hasil.setStyleSheet("""
@@ -239,6 +222,7 @@ class PendaftaranWindow(QWidget):
         btn_hasil.clicked.connect(lambda: [dialog.close(), self.show_hasil_periksa()])
         layout.addWidget(btn_hasil)
         
+        # Tombol Close
         btn_close = QPushButton("❌ Tutup")
         btn_close.setMinimumHeight(50)
         btn_close.setStyleSheet("""
@@ -261,12 +245,6 @@ class PendaftaranWindow(QWidget):
         dialog.setLayout(layout)
         dialog.exec_()
     
-    def show_data_dokter(self):
-        """Tampilkan data dokter"""
-        from data_dokter_window import DataDokterWindow
-        self.dokter_window = DataDokterWindow(self.user_data)
-        self.dokter_window.show()
-        self.close()
     
     def show_hasil_periksa(self):
         """Tampilkan hasil periksa dan data pendaftaran"""

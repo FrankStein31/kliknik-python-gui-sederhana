@@ -43,14 +43,11 @@ class PemeriksaanWindow(QWidget):
         self.ui.btnUpdate.clicked.connect(self.update_pemeriksaan)
         self.ui.btnHapus.clicked.connect(self.hapus_pemeriksaan)
         self.ui.btnBersih.clicked.connect(self.clear_form)
-        self.ui.btnMenuProfil.clicked.connect(self.show_profil)
+        self.ui.btnMenuProfil.clicked.connect(self.show_menu_dokter)
         self.ui.btnMenuPemeriksaan.clicked.connect(self.show_pemeriksaan)
         
-        # Tambah menu untuk Data Pasien (buat button baru atau gunakan yang ada)
-        # Kita akan ubah btnMenuProfil menjadi menu Data Pasien
-        self.ui.btnMenuProfil.setText("👥 Data Pasien")
-        self.ui.btnMenuProfil.clicked.disconnect()
-        self.ui.btnMenuProfil.clicked.connect(self.show_data_pasien)
+        # Ubah label menu profil untuk dokter
+        self.ui.btnMenuProfil.setText("� Menu Lainnya")
         
         # Connect table selection
         self.ui.tablePemeriksaan.itemSelectionChanged.connect(self.on_table_select)
@@ -59,8 +56,18 @@ class PemeriksaanWindow(QWidget):
         self.ui.txtBiayaDokter.textChanged.connect(self.hitung_total)
         self.ui.txtBiayaObat.textChanged.connect(self.hitung_total)
         
+        # Make id pendaftaran field readonly and auto-generated
+        self.ui.txtTglLahir.setReadOnly(True)
+        self.ui.txtTglLahir.setPlaceholderText("Auto Generate ID Pendaftaran")
+        
+        # Connect NIK field untuk auto-load data pendaftaran
+        self.ui.txtNIK.textChanged.connect(self.on_nik_changed)
+        
         # Load data
         self.load_data()
+        
+        # Auto-generate ID Pendaftaran pertama kali
+        self.generate_id_pendaftaran()
     
     def resize_window(self):
         """Resize window agar fit dengan screen dan semua elemen terlihat"""
@@ -165,6 +172,7 @@ class PemeriksaanWindow(QWidget):
     def tambah_pemeriksaan(self):
         """Tambah pemeriksaan baru"""
         # Ambil data dari form
+        id_pendaftaran = self.ui.txtTglLahir.text().strip()
         nik = self.ui.txtNIK.text().strip()
         diagnosa = self.ui.txtDiagnosa.text().strip()
         resep = self.ui.txtResep.toPlainText().strip()
@@ -195,6 +203,7 @@ class PemeriksaanWindow(QWidget):
             QMessageBox.information(self, "Berhasil", "Pemeriksaan berhasil disimpan!")
             self.clear_form()
             self.load_data()
+            self.generate_id_pendaftaran()  # Generate ID baru setelah simpan
         else:
             QMessageBox.critical(self, "Gagal", f"Gagal menyimpan:\n{result}")
     
@@ -261,6 +270,28 @@ class PemeriksaanWindow(QWidget):
         self.ui.txtBiayaObat.clear()
         self.selected_id = None
         self.hitung_total()
+        self.generate_id_pendaftaran()
+    
+    def generate_id_pendaftaran(self):
+        """Generate ID pendaftaran otomatis"""
+        from datetime import datetime
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        id_pendaftaran = f"REG-{timestamp}"
+        self.ui.txtTglLahir.setText(id_pendaftaran)
+    
+    def on_nik_changed(self):
+        """Auto-load data pasien/pendaftaran ketika NIK diinput"""
+        nik = self.ui.txtNIK.text().strip()
+        if len(nik) >= 16:  # NIK Indonesia 16 digit
+            # Cari di pendaftaran
+            from daftar import Pendaftaran
+            data = Pendaftaran.get_by_nik(nik)
+            if data and len(data) > 0:
+                # Ambil data pendaftaran terakhir
+                latest = data[0]
+                self.ui.txtNama.setText(str(latest[1]) if len(latest) > 1 else "")
+                self.ui.txtKeluhan.setText(str(latest[5]) if len(latest) > 5 else "")
+
     
     def hitung_total(self):
         """Hitung total biaya"""
@@ -280,6 +311,106 @@ class PemeriksaanWindow(QWidget):
         if hasattr(self.profil_window, 'logout_signal'):
             self.profil_window.logout_signal.connect(self.logout_signal.emit)
         self.profil_window.show()
+        self.close()
+    
+    def show_menu_dokter(self):
+        """Tampilkan menu untuk dokter"""
+        from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton
+        
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Menu Dokter")
+        dialog.setMinimumWidth(300)
+        
+        layout = QVBoxLayout()
+        
+        # Menu Profil Pribadi
+        btn_profil = QPushButton("👤 Profil Saya")
+        btn_profil.setMinimumHeight(50)
+        btn_profil.setStyleSheet("""
+            QPushButton {
+                background: #3498DB;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 12px;
+                font-weight: bold;
+                font-size: 11pt;
+            }
+            QPushButton:hover {
+                background: #5DADE2;
+            }
+        """)
+        btn_profil.clicked.connect(lambda: [dialog.close(), self.show_profil()])
+        layout.addWidget(btn_profil)
+        
+        # Menu Data Pasien
+        btn_pasien = QPushButton("👥 Data Pasien")
+        btn_pasien.setMinimumHeight(50)
+        btn_pasien.setStyleSheet("""
+            QPushButton {
+                background: #27AE60;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 12px;
+                font-weight: bold;
+                font-size: 11pt;
+            }
+            QPushButton:hover {
+                background: #2ECC71;
+            }
+        """)
+        btn_pasien.clicked.connect(lambda: [dialog.close(), self.show_data_pasien()])
+        layout.addWidget(btn_pasien)
+        
+        # Menu Data Dokter
+        btn_dokter = QPushButton("👨‍⚕️ Data Dokter")
+        btn_dokter.setMinimumHeight(50)
+        btn_dokter.setStyleSheet("""
+            QPushButton {
+                background: #E67E22;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 12px;
+                font-weight: bold;
+                font-size: 11pt;
+            }
+            QPushButton:hover {
+                background: #F39C12;
+            }
+        """)
+        btn_dokter.clicked.connect(lambda: [dialog.close(), self.show_data_dokter()])
+        layout.addWidget(btn_dokter)
+        
+        # Tombol Close
+        btn_close = QPushButton("❌ Tutup")
+        btn_close.setMinimumHeight(50)
+        btn_close.setStyleSheet("""
+            QPushButton {
+                background: #95A5A6;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 12px;
+                font-weight: bold;
+                font-size: 11pt;
+            }
+            QPushButton:hover {
+                background: #BDC3C7;
+            }
+        """)
+        btn_close.clicked.connect(dialog.close)
+        layout.addWidget(btn_close)
+        
+        dialog.setLayout(layout)
+        dialog.exec_()
+    
+    def show_data_dokter(self):
+        """Tampilkan data dokter untuk CRUD"""
+        from data_dokter_window import DataDokterWindow
+        self.data_dokter_window = DataDokterWindow(self.user_data)
+        self.data_dokter_window.show()
         self.close()
     
     def show_data_pasien(self):
