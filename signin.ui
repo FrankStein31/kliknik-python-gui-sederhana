@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SignInPasien</class>
+ <widget class="QWidget" name="SignInPasien">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1100</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Sign In Pasien - Klinik Sehat</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{background:#F5F7FA}QLineEdit,QTextEdit{background:white;border:2px solid #E8E8E8;border-radius:8px;padding:12px;color:#2C3E50}QLineEdit:focus,QTextEdit:focus{border-color:#2E86DE}QPushButton{background:#2E86DE;color:white;border:none;border-radius:8px;padding:14px;font-weight:bold}QPushButton:hover{background:#54A0FF}QPushButton:pressed{background:#1E6FBE}QPushButton#btnBack{background:#E8E8E8;color:#2C3E50}QPushButton#btnBack:hover{background:#D0D0D0}</string>
+  </property>
+  <layout class="QHBoxLayout" name="mainLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QWidget" name="leftPanel" native="true">
+     <property name="styleSheet">
+      <string notr="true">background:qlineargradient(x1:0,y1:0,x2:0,y2:1,stop:0 #2E86DE,stop:1 #54A0FF);</string>
+     </property>
+     <layout class="QVBoxLayout" name="leftLayout">
+      <property name="spacing">
+       <number>24</number>
+      </property>
+      <property name="leftMargin">
+       <number>60</number>
+      </property>
+      <property name="topMargin">
+       <number>60</number>
+      </property>
+      <property name="rightMargin">
+       <number>60</number>
+      </property>
+      <property name="bottomMargin">
+       <number>60</number>
+      </property>
+      <item>
+       <spacer name="topSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="lblIconBig">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>120</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>120</width>
+          <height>120</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>72</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background:rgba(255,255,255,0.2);border-radius:60px;</string>
+        </property>
+        <property name="text">
+         <string>🏥</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lblKlinik">
+        <property name="font">
+         <font>
+          <pointsize>32</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color:white;</string>
+        </property>
+        <property name="text">
+         <string>Klinik Sehat</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lblTagline">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color:rgba(255,255,255,0.9);</string>
+        </property>
+        <property name="text">
+         <string>Layanan Kesehatan Terpercaya untuk Keluarga Anda</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="divider">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>2</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>2</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background:rgba(255,255,255,0.3);</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lblInfo">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color:rgba(255,255,255,0.85);</string>
+        </property>
+        <property name="text">
+         <string>Masukkan data diri Anda untuk mengakses
+layanan kesehatan kami</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="bottomSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="rightPanel" native="true">
+     <property name="styleSheet">
+      <string notr="true">background:white;</string>
+     </property>
+     <layout class="QVBoxLayout" name="rightLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QScrollArea{border:none;background:white;}QScrollBar:vertical{background:#F5F7FA;width:10px;border-radius:5px;}QScrollBar::handle:vertical{background:#C0C0C0;border-radius:5px;min-height:30px;}QScrollBar::handle:vertical:hover{background:#A0A0A0;}</string>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>550</width>
+           <height>700</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="scrollLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="topSpacerRight">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QWidget" name="signinContainer" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>400</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>480</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <layout class="QVBoxLayout" name="signinLayout">
+             <property name="spacing">
+              <number>24</number>
+             </property>
+             <property name="leftMargin">
+              <number>60</number>
+             </property>
+             <property name="topMargin">
+              <number>30</number>
+             </property>
+             <property name="rightMargin">
+              <number>60</number>
+             </property>
+             <property name="bottomMargin">
+              <number>30</number>
+             </property>
+             <item>
+              <layout class="QVBoxLayout" name="headerLayout">
+               <property name="spacing">
+                <number>12</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="lblWelcome">
+                 <property name="font">
+                  <font>
+                   <pointsize>28</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">color:#2E86DE;</string>
+                 </property>
+                 <property name="text">
+                  <string>Sign In Pasien</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="lblSubtitle">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">color:#7F8C8D;</string>
+                 </property>
+                 <property name="text">
+                  <string>Masukkan data diri Anda untuk melanjutkan</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QFrame" name="separator">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>1</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>1</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#E8E8E8;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="formLayout">
+               <property name="spacing">
+                <number>18</number>
+               </property>
+               <item>
+                <layout class="QVBoxLayout" name="nikLayout">
+                 <property name="spacing">
+                  <number>8</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="lblNIK">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:#2C3E50;</string>
+                   </property>
+                   <property name="text">
+                    <string>NIK (Nomor Induk Kependudukan)</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="txtNIK">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>48</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                   <property name="maxLength">
+                    <number>16</number>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Masukkan 16 digit NIK</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="namaLayout">
+                 <property name="spacing">
+                  <number>8</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="lblNama">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:#2C3E50;</string>
+                   </property>
+                   <property name="text">
+                    <string>Nama Lengkap</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="txtNama">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>48</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Masukkan nama lengkap sesuai KTP</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="teleponLayout">
+                 <property name="spacing">
+                  <number>8</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="lblTelepon">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:#2C3E50;</string>
+                   </property>
+                   <property name="text">
+                    <string>Nomor Telepon</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="txtTelepon">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>48</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Contoh: 081234567890</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="alamatLayout">
+                 <property name="spacing">
+                  <number>8</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="lblAlamat">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:#2C3E50;</string>
+                   </property>
+                   <property name="text">
+                    <string>Alamat Lengkap</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QTextEdit" name="txtAlamat">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>90</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>90</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Masukkan alamat lengkap (Jalan, RT/RW, Kelurahan, Kecamatan, Kota)</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <spacer name="formSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>10</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="buttonLayout">
+               <property name="spacing">
+                <number>12</number>
+               </property>
+               <item>
+                <widget class="QPushButton" name="btnBack">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>52</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="text">
+                  <string>Kembali</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="btnSignIn">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>52</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="text">
+                  <string>Sign In</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="bottomSpacerRight">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

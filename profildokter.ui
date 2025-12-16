@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FormProfilDokter</class>
+ <widget class="QWidget" name="FormProfilDokter">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>784</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Profil Dokter</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{background:#F5F7FA}QLineEdit,QTextEdit{background:white;border:2px solid #E8E8E8;border-radius:8px;padding:10px;color:#2C3E50}QLineEdit:focus,QTextEdit:focus{border-color:#2E86DE}QPushButton{background:#2E86DE;color:white;border:none;border-radius:8px;padding:12px;font-weight:bold}QPushButton:hover{background:#54A0FF}QPushButton:pressed{background:#1E6FBE}</string>
+  </property>
+  <layout class="QHBoxLayout" name="mainLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="frameSidebar">
+     <property name="minimumSize">
+      <size>
+       <width>250</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>250</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QFrame{background:#2E86DE;border:none}</string>
+     </property>
+     <layout class="QVBoxLayout" name="sidebarLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QFrame" name="frameLogoHeader">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{background:#1E6FBE;border:none}</string>
+        </property>
+        <layout class="QVBoxLayout" name="logoLayout">
+         <property name="spacing">
+          <number>5</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="lblLogo">
+           <property name="font">
+            <font>
+             <pointsize>20</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:white;</string>
+           </property>
+           <property name="text">
+            <string>🏥 Klinik</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lblSubtitle">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:#D5E8FF;</string>
+           </property>
+           <property name="text">
+            <string>Sistem Manajemen</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frameMenu">
+        <property name="styleSheet">
+         <string notr="true">QFrame{background:transparent;border:none}</string>
+        </property>
+        <layout class="QVBoxLayout" name="menuLayout">
+         <property name="spacing">
+          <number>5</number>
+         </property>
+         <property name="leftMargin">
+          <number>15</number>
+         </property>
+         <property name="topMargin">
+          <number>20</number>
+         </property>
+         <property name="rightMargin">
+          <number>15</number>
+         </property>
+         <property name="bottomMargin">
+          <number>10</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="btnMenuPemeriksaan">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{background:transparent;color:white;border:none;border-radius:8px;padding:12px;text-align:left;padding-left:15px}QPushButton:hover{background:rgba(255,255,255,0.1)}QPushButton:pressed{background:rgba(255,255,255,0.2)}</string>
+           </property>
+           <property name="text">
+            <string>📋 Pemeriksaan</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnMenuProfil">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{background:#1E6FBE;color:white;border:none;border-radius:8px;padding:12px;text-align:left;padding-left:15px}QPushButton:hover{background:#54A0FF}QPushButton:pressed{background:#1560A8}</string>
+           </property>
+           <property name="text">
+            <string>👤 Profil</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QFrame" name="frameUserInfo">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{background:rgba(255,255,255,0.1);border:none;border-radius:8px;margin:15px}</string>
+        </property>
+        <layout class="QVBoxLayout" name="userInfoLayout">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="lblUserName">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:white;</string>
+           </property>
+           <property name="text">
+            <string>Dr. Ahmad</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lblUserRole">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:#D5E8FF;</string>
+           </property>
+           <property name="text">
+            <string>Dokter Umum</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="contentLayout">
+     <property name="spacing">
+      <number>30</number>
+     </property>
+     <property name="leftMargin">
+      <number>50</number>
+     </property>
+     <property name="topMargin">
+      <number>50</number>
+     </property>
+     <property name="rightMargin">
+      <number>50</number>
+     </property>
+     <property name="bottomMargin">
+      <number>50</number>
+     </property>
+     <item>
+      <widget class="QFrame" name="frameProfile">
+       <property name="styleSheet">
+        <string notr="true">QFrame{background:white;border-radius:16px}</string>
+       </property>
+       <layout class="QVBoxLayout" name="profileLayout">
+        <property name="spacing">
+         <number>20</number>
+        </property>
+        <property name="leftMargin">
+         <number>40</number>
+        </property>
+        <property name="topMargin">
+         <number>40</number>
+        </property>
+        <property name="rightMargin">
+         <number>40</number>
+        </property>
+        <property name="bottomMargin">
+         <number>40</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="lblJudul">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>👨‍⚕️ Profil Dokter</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="lineTop">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>2</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:#E8E8E8;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="formLayout">
+          <property name="spacing">
+           <number>20</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblNIP">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>NIP</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="txtNIP">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>198512152010011001</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblNama">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Nama Lengkap</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="txtNama">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Dr. Ahmad Fauzi, Sp.PD</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblNoTelp">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Nomor Telepon</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="txtNoTelp">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>081234567890</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblAlamat">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Alamat</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTextEdit" name="txtAlamat">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="html">
+             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jl. Gatot Subroto No. 45, Kelurahan Cipete Utara, Kecamatan Kebayoran Baru, Jakarta Selatan 12150&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layoutButton">
+          <property name="spacing">
+           <number>15</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="btnUpdate">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>52</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton{background:#F39C12;color:white}QPushButton:hover{background:#F5B041}QPushButton:pressed{background:#D68910}</string>
+            </property>
+            <property name="text">
+             <string>Update</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnHapus">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>52</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton{background:#E74C3C;color:white}QPushButton:hover{background:#EC7063}QPushButton:pressed{background:#C0392B}</string>
+            </property>
+            <property name="text">
+             <string>Hapus Akun</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
