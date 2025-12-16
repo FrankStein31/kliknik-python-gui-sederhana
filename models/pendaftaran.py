@@ -218,3 +218,39 @@ class Pendaftaran:
         except Error as e:
             print(f"Error update status: {e}")
             return False
+    
+    @staticmethod
+    def hapus_pendaftaran(id_pendaftaran):
+        """
+        Hapus pendaftaran dari database (hard delete)
+        Untuk dokter yang ingin menghapus pendaftaran
+        
+        Args:
+            id_pendaftaran (int): ID pendaftaran yang akan dihapus
+            
+        Returns:
+            tuple: (bool, str) - (status, message)
+        """
+        try:
+            pendaftaran = Pendaftaran()
+            conn = pendaftaran.get_connection()
+            if not conn:
+                return False, "Gagal koneksi database"
+            
+            cursor = conn.cursor()
+            query = "DELETE FROM pendaftaran WHERE id_pendaftaran = %s"
+            cursor.execute(query, (id_pendaftaran,))
+            conn.commit()
+            
+            rows_affected = cursor.rowcount
+            cursor.close()
+            conn.close()
+            
+            if rows_affected > 0:
+                return True, "Pendaftaran berhasil dihapus dari database"
+            else:
+                return False, "Pendaftaran tidak ditemukan"
+                
+        except Error as e:
+            print(f"Error hapus pendaftaran: {e}")
+            return False, f"Error: {str(e)}"

@@ -113,6 +113,13 @@ class PemeriksaanDokterWindow(QWidget):
             QPushButton#btnRefresh:hover {
                 background-color: #F57C00;
             }
+            QPushButton#btnHapus {
+                background-color: #f44336;
+                color: white;
+            }
+            QPushButton#btnHapus:hover {
+                background-color: #d32f2f;
+            }
             QTableWidget {
                 border: 1px solid #ddd;
                 background-color: white;
@@ -194,6 +201,15 @@ class PemeriksaanDokterWindow(QWidget):
         table_title.setFont(QFont('Arial', 11, QFont.Bold))
         table_title.setStyleSheet("color: #2196F3;")
         title_layout.addWidget(table_title)
+        
+        title_layout.addStretch()
+        
+        self.btn_hapus = QPushButton("🗑️ Hapus")
+        self.btn_hapus.setObjectName("btnHapus")
+        self.btn_hapus.setCursor(Qt.PointingHandCursor)
+        self.btn_hapus.clicked.connect(self.hapus_pendaftaran)
+        self.btn_hapus.setEnabled(False)  # Disabled sampai ada yang dipilih
+        title_layout.addWidget(self.btn_hapus)
         
         self.btn_refresh = QPushButton("🔄 Refresh")
         self.btn_refresh.setObjectName("btnRefresh")
@@ -372,8 +388,9 @@ class PemeriksaanDokterWindow(QWidget):
             self.txt_biaya_obat.setText("0")
             self.txt_total.setText("Rp 0")
             
-            # Enable button simpan
+            # Enable buttons
             self.btn_simpan.setEnabled(True)
+            self.btn_hapus.setEnabled(True)
     
     def calculate_total(self):
         """Calculate total biaya otomatis"""
@@ -451,11 +468,62 @@ class PemeriksaanDokterWindow(QWidget):
             
             # Disable button
             self.btn_simpan.setEnabled(False)
+            self.btn_hapus.setEnabled(False)
             
             # Reload tabel
             self.load_pendaftaran()
         else:
             QMessageBox.critical(self, "Gagal", f"Gagal menyimpan pemeriksaan!\n{message}")
+    
+    def hapus_pendaftaran(self):
+        """Hapus pendaftaran yang dipilih dari database"""
+        if not self.selected_pendaftaran:
+            QMessageBox.warning(self, "Validasi", "Pilih pendaftaran terlebih dahulu!")
+            return
+        
+        # Konfirmasi
+        reply = QMessageBox.question(self, 'Konfirmasi Hapus', 
+                                    f'HAPUS PERMANEN dari database:\n\n'
+                                    f'ID: {self.selected_pendaftaran["id_pendaftaran"]}\n'
+                                    f'Nama: {self.selected_pendaftaran["nama"]}\n'
+                                    f'Keluhan: {self.selected_pendaftaran["keluhan"]}\n\n'
+                                    f'⚠️ Data akan dihapus PERMANEN!\n'
+                                    f'Lanjutkan?',
+                                    QMessageBox.Yes | QMessageBox.No,
+                                    QMessageBox.No)
+        
+        if reply == QMessageBox.No:
+            return
+        
+        # Hapus
+        success, message = Pendaftaran.hapus_pendaftaran(self.selected_pendaftaran['id_pendaftaran'])
+        
+        if success:
+            QMessageBox.information(self, "Berhasil", 
+                                  f"{message}\n\n"
+                                  f"ID Pendaftaran: {self.selected_pendaftaran['id_pendaftaran']}\n"
+                                  f"Status: DIHAPUS DARI DATABASE")
+            
+            # Clear form
+            self.selected_pendaftaran = None
+            self.txt_id.clear()
+            self.txt_nama_pasien.clear()
+            self.txt_nik_pasien.clear()
+            self.txt_keluhan_pasien.clear()
+            self.txt_diagnosa.clear()
+            self.txt_resep.clear()
+            self.txt_biaya_dokter.setText("0")
+            self.txt_biaya_obat.setText("0")
+            self.txt_total.setText("Rp 0")
+            
+            # Disable buttons
+            self.btn_simpan.setEnabled(False)
+            self.btn_hapus.setEnabled(False)
+            
+            # Reload tabel
+            self.load_pendaftaran()
+        else:
+            QMessageBox.critical(self, "Gagal", f"Gagal menghapus pendaftaran!\n{message}")
     
     def open_profil(self):
         """Buka profil dokter"""
