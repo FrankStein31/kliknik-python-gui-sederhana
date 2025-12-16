@@ -196,6 +196,7 @@ class ProfilDokterWindow(QWidget):
         self.main_window = PemeriksaanWindow(self.user_data)
         self.main_window.show()
         self.close()
+        self.deleteLater()  # Hapus window dari memory
     
     def logout(self):
         """Logout dan kembali ke login"""
@@ -211,11 +212,13 @@ class ProfilDokterWindow(QWidget):
             from main import MainApp
             app = MainApp.get_instance()
             if app:
-                print("DEBUG - Calling app.on_logout() from ProfilDokterWindow")
+                self.close()
+                self.deleteLater()
                 app.on_logout()
             else:
                 # Fallback jika MainApp tidak ada
-                self.logout_signal.emit()
+                self.close()
+                self.deleteLater()
 
 
 class ProfilPasienWindow(QWidget):
@@ -432,6 +435,7 @@ class ProfilPasienWindow(QWidget):
         self.main_window = PendaftaranWindow(self.user_data)
         self.main_window.show()
         self.close()
+        self.deleteLater()  # Hapus window dari memory
     
     def logout(self):
         """Logout dan kembali ke login"""
@@ -447,8 +451,12 @@ class ProfilPasienWindow(QWidget):
             from main import MainApp
             app = MainApp.get_instance()
             if app:
-                print("DEBUG - Calling app.on_logout() from ProfilPasienWindow")
+                self.close()
+                self.deleteLater()
                 app.on_logout()
             else:
+                # Fallback
+                self.close()
+                self.deleteLater()
                 # Fallback jika MainApp tidak ada
                 self.logout_signal.emit()

@@ -1,5 +1,14 @@
 """
-Window Pemeriksaan - Menghubungkan UI Pemeriksaan dengan Backend
+Window Pemeriksaan - Menghubungkan         # Connect buttons
+        self.ui.btnTambah.clicked.connect(self.tambah_pemeriksaan)
+        self.ui.btnUpdate.clicked.connect(self.update_pemeriksaan)
+        self.ui.btnHapus.clicked.connect(self.hapus_pemeriksaan)
+        self.ui.btnBersih.clicked.connect(self.clear_form)
+        self.ui.btnMenuProfil.clicked.connect(self.show_menu_dokter)
+        self.ui.btnMenuPemeriksaan.clicked.connect(self.show_pemeriksaan)
+        
+        # Ubah label menu profil untuk dokter - Data Dokter langsung
+        self.ui.btnMenuProfil.setText("👨‍⚕️ Data Dokter")saan dengan Backend
 """
 from PyQt5.QtWidgets import QWidget, QMessageBox, QTableWidgetItem, QDesktopWidget, QPushButton
 from PyQt5.QtCore import Qt, pyqtSignal
@@ -47,7 +56,7 @@ class PemeriksaanWindow(QWidget):
         self.ui.btnMenuPemeriksaan.clicked.connect(self.show_pemeriksaan)
         
         # Ubah label menu profil untuk dokter
-        self.ui.btnMenuProfil.setText("� Menu Lainnya")
+        self.ui.btnMenuProfil.setText("List Dokter")
         
         # Connect table selection
         self.ui.tablePemeriksaan.itemSelectionChanged.connect(self.on_table_select)
@@ -89,7 +98,37 @@ class PemeriksaanWindow(QWidget):
         self.move(qr.topLeft())
     
     def add_logout_button(self):
-        """Tambah tombol logout di sidebar"""
+        """Tambah tombol menu tambahan di sidebar"""
+        # Tombol Menu Lainnya (Profil & Data Pasien)
+        btnMenuLain = QPushButton("📋 Menu Lainnya")
+        btnMenuLain.setMinimumSize(0, 50)
+        btnMenuLain.setStyleSheet("""
+            QPushButton {
+                background: transparent;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 12px;
+                text-align: left;
+                padding-left: 15px;
+                font-weight: bold;
+                font-size: 11pt;
+                margin: 15px;
+                margin-bottom: 5px;
+            }
+            QPushButton:hover {
+                background: rgba(255,255,255,0.1);
+            }
+            QPushButton:pressed {
+                background: rgba(255,255,255,0.2);
+            }
+        """)
+        btnMenuLain.clicked.connect(self.show_menu_lainnya)
+        
+        # Tambahkan ke layout sidebar
+        self.ui.sidebarLayout.insertWidget(self.ui.sidebarLayout.count() - 1, btnMenuLain)
+        
+        # Tombol Logout
         btnLogout = QPushButton("🚪 Logout")
         btnLogout.setMinimumSize(0, 50)
         btnLogout.setStyleSheet("""
@@ -314,11 +353,19 @@ class PemeriksaanWindow(QWidget):
         self.close()
     
     def show_menu_dokter(self):
-        """Tampilkan menu untuk dokter"""
+        """Langsung ke Data Dokter"""
+        from data_dokter_window import DataDokterWindow
+        self.data_dokter_window = DataDokterWindow(self.user_data)
+        self.data_dokter_window.show()
+        self.close()
+        self.deleteLater()  # Hapus window dari memory
+    
+    def show_menu_lainnya(self):
+        """Tampilkan menu lainnya (Profil & Data Pasien)"""
         from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton
         
         dialog = QDialog(self)
-        dialog.setWindowTitle("Menu Dokter")
+        dialog.setWindowTitle("Menu Lainnya - Dokter")
         dialog.setMinimumWidth(300)
         
         layout = QVBoxLayout()
@@ -363,26 +410,6 @@ class PemeriksaanWindow(QWidget):
         btn_pasien.clicked.connect(lambda: [dialog.close(), self.show_data_pasien()])
         layout.addWidget(btn_pasien)
         
-        # Menu Data Dokter
-        btn_dokter = QPushButton("👨‍⚕️ Data Dokter")
-        btn_dokter.setMinimumHeight(50)
-        btn_dokter.setStyleSheet("""
-            QPushButton {
-                background: #E67E22;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 12px;
-                font-weight: bold;
-                font-size: 11pt;
-            }
-            QPushButton:hover {
-                background: #F39C12;
-            }
-        """)
-        btn_dokter.clicked.connect(lambda: [dialog.close(), self.show_data_dokter()])
-        layout.addWidget(btn_dokter)
-        
         # Tombol Close
         btn_close = QPushButton("❌ Tutup")
         btn_close.setMinimumHeight(50)
@@ -406,12 +433,24 @@ class PemeriksaanWindow(QWidget):
         dialog.setLayout(layout)
         dialog.exec_()
     
+    def show_profil(self):
+        """Tampilkan profil dokter"""
+        from profil_window import ProfilDokterWindow
+        self.profil_window = ProfilDokterWindow(self.user_data)
+        # Connect logout signal dari profil window ke parent
+        if hasattr(self.profil_window, 'logout_signal'):
+            self.profil_window.logout_signal.connect(self.logout_signal.emit)
+        self.profil_window.show()
+        self.close()
+        self.deleteLater()  # Hapus window dari memory
+    
     def show_data_dokter(self):
         """Tampilkan data dokter untuk CRUD"""
         from data_dokter_window import DataDokterWindow
         self.data_dokter_window = DataDokterWindow(self.user_data)
         self.data_dokter_window.show()
         self.close()
+        self.deleteLater()  # Hapus window dari memory
     
     def show_data_pasien(self):
         """Tampilkan data pasien untuk CRUD"""
@@ -419,6 +458,7 @@ class PemeriksaanWindow(QWidget):
         self.data_pasien_window = DataPasienWindow(self.user_data)
         self.data_pasien_window.show()
         self.close()
+        self.deleteLater()  # Hapus window dari memory
     
     def show_pemeriksaan(self):
         """Refresh window pemeriksaan"""
@@ -438,8 +478,10 @@ class PemeriksaanWindow(QWidget):
             from main import MainApp
             app = MainApp.get_instance()
             if app:
-                print("DEBUG - Calling app.on_logout() from PemeriksaanWindow")
+                self.close()
+                self.deleteLater()
                 app.on_logout()
             else:
                 # Fallback jika MainApp tidak ada
-                self.logout_signal.emit()
+                self.close()
+                self.deleteLater()

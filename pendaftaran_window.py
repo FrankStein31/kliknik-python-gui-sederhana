@@ -171,6 +171,7 @@ class PendaftaranWindow(QWidget):
             self.profil_window.logout_signal.connect(self.logout_signal.emit)
         self.profil_window.show()
         self.close()
+        self.deleteLater()  # Hapus window dari memory
     
     def show_menu_lainnya(self):
         """Tampilkan menu lainnya untuk pasien"""
@@ -255,6 +256,7 @@ class PendaftaranWindow(QWidget):
             self.hasil_window.logout_signal.connect(self.logout_signal.emit)
         self.hasil_window.show()
         self.close()
+        self.deleteLater()  # Hapus window dari memory
     
     def show_pendaftaran(self):
         """Refresh pendaftaran"""
@@ -274,8 +276,10 @@ class PendaftaranWindow(QWidget):
             from main import MainApp
             app = MainApp.get_instance()
             if app:
-                print("DEBUG - Calling app.on_logout() from PendaftaranWindow")
+                self.close()
+                self.deleteLater()
                 app.on_logout()
             else:
                 # Fallback jika MainApp tidak ada
-                self.logout_signal.emit()
+                self.close()
+                self.deleteLater()

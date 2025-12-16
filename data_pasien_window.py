@@ -388,3 +388,27 @@ class DataPasienWindow(QWidget):
         self.main_window = PemeriksaanWindow(self.user_data)
         self.main_window.show()
         self.close()
+        self.deleteLater()  # Hapus window dari memory
+    
+    def logout(self):
+        """Logout dan kembali ke login"""
+        from PyQt5.QtWidgets import QMessageBox
+        reply = QMessageBox.question(
+            self,
+            "Konfirmasi Logout",
+            "Apakah Anda yakin ingin logout?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        
+        if reply == QMessageBox.Yes:
+            # Gunakan MainApp singleton untuk handle logout
+            from main import MainApp
+            app = MainApp.get_instance()
+            if app:
+                self.close()
+                self.deleteLater()
+                app.on_logout()
+            else:
+                # Fallback
+                self.close()
+                self.deleteLater()

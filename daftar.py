@@ -1,9 +1,3 @@
-"""
-Pendaftaran Class - Model untuk data pendaftaran pasien
-Mengelola CRUD operations untuk pendaftaran pemeriksaan
-
-Class ini standalone untuk mengelola proses pendaftaran pasien.
-"""
 import mysql.connector
 from datetime import datetime
 
@@ -21,35 +15,10 @@ cursor = db.cursor()
 
 
 class Pendaftaran:
-    """
-    Pendaftaran class untuk mengelola data pendaftaran pasien.
-    
-    Class structure:
-    - Standalone class untuk data pendaftaran
-    - Mengelola informasi awal pasien sebelum pemeriksaan
-    - Bridge antara Pasien dan Pemeriksaan
-    
-    Attributes:
-        nik (str): NIK pasien yang mendaftar
-        nama (str): Nama lengkap pasien
-        tgllhr (str): Tanggal lahir pasien
-        jk (str): Jenis kelamin pasien
-        no_telp (str): Nomor telepon pasien
-        keluhan (str): Keluhan/gejala awal pasien
-    """
+
     
     def __init__(self, nik=None, nama=None, tgllhr=None, jk=None, no_telp=None, keluhan=None):
-        """
-        Constructor untuk Pendaftaran class
-        
-        Args:
-            nik (str): NIK pasien
-            nama (str): Nama lengkap
-            tgllhr (str): Tanggal lahir (format: YYYY-MM-DD)
-            jk (str): Jenis kelamin (L/P)
-            no_telp (str): Nomor telepon
-            keluhan (str): Keluhan awal
-        """
+
         self.nik = nik
         self.nama = nama
         self.tgllhr = tgllhr
