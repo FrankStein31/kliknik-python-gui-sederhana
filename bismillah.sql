@@ -62,7 +62,7 @@ DROP TABLE IF EXISTS `dokter`;
 CREATE TABLE `dokter` (
   `nip` VARCHAR(20) NOT NULL,
   `nama` VARCHAR(100) NOT NULL,
-  `no_tlp` VARCHAR(15) DEFAULT NULL,
+  `no_telp` VARCHAR(15) DEFAULT NULL,
   `alamat` TEXT,
   `spesialisasi` VARCHAR(100) DEFAULT NULL,
   `username` VARCHAR(50) NOT NULL UNIQUE,
@@ -73,7 +73,7 @@ CREATE TABLE `dokter` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data dokter
-INSERT INTO `dokter` (`nip`, `nama`, `no_tlp`, `alamat`, `spesialisasi`, `username`) VALUES
+INSERT INTO `dokter` (`nip`, `nama`, `no_telp`, `alamat`, `spesialisasi`, `username`) VALUES
 ('DOK001', 'Dr. Ahmad Fauzi, Sp.PD', '081234567890', 'Jl. Merdeka No. 123, Jakarta', 'Penyakit Dalam', 'dokter1'),
 ('DOK002', 'Dr. Siti Nurhaliza, Sp.A', '081234567891', 'Jl. Kebon Jeruk No. 45, Jakarta', 'Anak', 'dokter2');
 

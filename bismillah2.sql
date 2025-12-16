@@ -54,7 +54,7 @@ INSERT INTO `admin` (`id_admin`, `username`, `password`, `role`, `created_at`) V
 CREATE TABLE `dokter` (
   `nip` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nama` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_tlp` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `no_telp` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `alamat` text COLLATE utf8mb4_unicode_ci,
   `spesialisasi` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE `dokter` (
 -- Dumping data for table `dokter`
 --
 
-INSERT INTO `dokter` (`nip`, `nama`, `no_tlp`, `alamat`, `spesialisasi`, `username`, `created_at`) VALUES
+INSERT INTO `dokter` (`nip`, `nama`, `no_telp`, `alamat`, `spesialisasi`, `username`, `created_at`) VALUES
 ('DOK001', 'Dr. Ahmad Fauzi, Sp.PD', '081234567890', 'Jl. Merdeka No. 123, Jakarta', 'Penyakit Dalam', 'dokter1', '2025-12-16 13:33:03'),
 ('DOK002', 'Dr. Siti Nurhaliza, Sp.A', '081234567891', 'Jl. Kebon Jeruk No. 45, Jakarta', 'Anak', 'dokter2', '2025-12-16 13:33:03');
 
