@@ -1,204 +1,86 @@
-from admin import Admin
-from daftar import Pendaftaran
-from periksa import Pemeriksaan
-from pasien import Pasien
-from dokter import Dokter
-import os
+"""
+SISTEM INFORMASI KLINIK - GUI VERSION
+Main Entry Point
+"""
+import sys
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtCore import QObject, pyqtSignal
+from login_window import LoginWindow
+from pemeriksaan_window import PemeriksaanWindow
+from pendaftaran_window import PendaftaranWindow
 
 
-# ==========================
-# UTILITAS
-# ==========================
-def clear():
-    os.system("cls" if os.name == "nt" else "clear")
+class MainApp(QObject):
+    # Singleton instance
+    _instance = None
+    
+    # Signal untuk logout yang bisa diakses dari window lain
+    logout_requested = pyqtSignal()
+    
+    @classmethod
+    def get_instance(cls):
+        """Get singleton instance"""
+        return cls._instance
+    
+    def __init__(self):
+        super().__init__()
+        MainApp._instance = self  # Set singleton
+        self.app = QApplication(sys.argv)
+        self.login_window = None
+        self.main_window = None
+        self.user_data = None
+        
+    def show_login(self):
+        """Tampilkan window login"""
+        self.login_window = LoginWindow()
+        self.login_window.login_success.connect(self.on_login_success)
+        self.login_window.show()
+    
+    def on_login_success(self, user_data):
+        """Handler ketika login berhasil"""
+        print(f"DEBUG - on_login_success called with: {user_data}")  # Debug output
+        self.user_data = user_data
+        
+        # Tutup login window
+        if self.login_window:
+            self.login_window.close()
+        
+        # Buka window sesuai role
+        print(f"DEBUG - User role: {user_data['role']}")  # Debug output
+        if user_data["role"] == "dokter":
+            print("DEBUG - Creating PemeriksaanWindow")  # Debug output
+            self.main_window = PemeriksaanWindow(user_data)
+            # Connect logout signal
+            if hasattr(self.main_window, 'logout_signal'):
+                self.main_window.logout_signal.connect(self.on_logout)
+        else:  # pasien
+            print("DEBUG - Creating PendaftaranWindow")  # Debug output
+            self.main_window = PendaftaranWindow(user_data)
+            # Connect logout signal
+            if hasattr(self.main_window, 'logout_signal'):
+                self.main_window.logout_signal.connect(self.on_logout)
+        
+        print("DEBUG - Showing main window")  # Debug output
+        self.main_window.show()
+    
+    def on_logout(self):
+        """Handler ketika user logout"""
+        print("DEBUG - on_logout called")  # Debug output
+        
+        # Tutup main window
+        if self.main_window:
+            self.main_window.close()
+            self.main_window = None
+        
+        # Tampilkan login window lagi
+        self.show_login()
+    
+    def run(self):
+        """Jalankan aplikasi"""
+        self.show_login()
+        sys.exit(self.app.exec_())
 
 
-def header():
-    print("=" * 50)
-    print(" SISTEM INFORMASI KLINIK ")
-    print("=" * 50)
-
-
-# ==========================
-# LOGIN
-# ==========================
-def login():
-    while True:
-        clear()
-        header()
-        print("--- LOGIN SISTEM ---")
-
-        username = input("Username : ")
-        password = input("Password : ")
-
-        admin = Admin(username, password)
-        result = admin.login()
-
-        if result["status"]:
-            print("\n✅ Login berhasil")
-            print("Username :", result["username"])
-            print("Role     :", result["role"])
-            input("\nTekan ENTER untuk lanjut...")
-            return result
-        else:
-            print("\n❌", result["message"])
-            input("Tekan ENTER untuk ulangi...")
-
-
-# ==========================
-# MENU UTAMA
-# ==========================
-def menu_utama(role):
-    clear()
-    header()
-
-    if role == "dokter":
-        print("1. Pemeriksaan Pasien")
-        print("2. Data Dokter")
-        print("3. Logout")
-    else:  # pasien
-        print("1. Pendaftaran Periksa")
-        print("2. Data Pasien")
-        print("3. Logout")
-
-
-# ==========================
-# MENU DOKTER
-# ==========================
-def menu_dokter_flow():
-    while True:
-        menu_utama("dokter")
-        pilih = input("\nPilih Menu : ")
-
-        if pilih == "1":
-            menu_pemeriksaan()
-        elif pilih == "2":
-            menu_dokter()
-        elif pilih == "3":
-            print("\nLogout berhasil")
-            input("Tekan ENTER...")
-            break
-        else:
-            print("❌ Menu tidak tersedia")
-            input("Tekan ENTER...")
-
-
-# ==========================
-# MENU PASIEN
-# ==========================
-def menu_pasien_flow():
-    while True:
-        menu_utama("pasien")
-        pilih = input("\nPilih Menu : ")
-
-        if pilih == "1":
-            menu_pendaftaran()
-        elif pilih == "2":
-            menu_pasien()
-        elif pilih == "3":
-            print("\nLogout berhasil")
-            input("Tekan ENTER...")
-            break
-        else:
-            print("❌ Menu tidak tersedia")
-            input("Tekan ENTER...")
-
-
-# ==========================
-# PENDAFTARAN PERIKSA (PASIEN)
-# ==========================
-def menu_pendaftaran():
-    clear()
-    header()
-    print("--- PENDAFTARAN PERIKSA ---")
-
-    nik = input("NIK              : ")
-    nama = input("Nama             : ")
-    tgllhr = input("Tanggal Lahir (YYYY-MM-DD): ")
-    jk = input("Jenis Kelamin (Laki-laki / Perempuan): ")
-    no_telp = input("No Telp          : ")
-    keluhan = input("Keluhan          : ")
-
-    daftar = Pendaftaran(nik, nama, tgllhr, jk, no_telp, keluhan)
-    result = daftar.insert_pendaftaran()
-
-    print("\n✅ Berhasil" if result is True else f"\n❌ {result}")
-    input("Tekan ENTER...")
-
-
-# ==========================
-# PEMERIKSAAN (DOKTER)
-# ==========================
-def menu_pemeriksaan():
-    clear()
-    header()
-    print("--- PEMERIKSAAN PASIEN ---")
-
-    nik = input("NIK Pasien   : ")
-    diagnosa = input("Diagnosa    : ")
-    resep = input("Resep       : ")
-    total_biaya = float(input("Total Biaya : "))
-    total_obat = int(input("Total Obat  : "))
-
-    periksa = Pemeriksaan(nik, diagnosa, resep, total_biaya, total_obat)
-    result = periksa.insert_pemeriksaan()
-
-    print("\n✅ Berhasil" if result is True else f"\n❌ {result}")
-    input("Tekan ENTER...")
-
-
-# ==========================
-# DATA PASIEN (PASIEN)
-# ==========================
-def menu_pasien():
-    clear()
-    header()
-    print("--- DATA PASIEN ---")
-
-    data = Pasien.get_all()
-    if not data:
-        print("Belum ada data pasien")
-    else:
-        for p in data:
-            print(f"NIK: {p[0]} | Nama: {p[1]} | Telp: {p[2]} | Alamat: {p[3]}")
-
-    input("\nTekan ENTER...")
-
-
-# ==========================
-# DATA DOKTER (DOKTER)
-# ==========================
-def menu_dokter():
-    clear()
-    header()
-    print("--- DATA DOKTER ---")
-
-    data = Dokter.get_all()
-    if not data:
-        print("Belum ada data dokter")
-    else:
-        for d in data:
-            print(f"NIP: {d[0]} | Nama: {d[1]} | Telp: {d[2]} | Alamat: {d[3]}")
-
-    input("\nTekan ENTER...")
-
-
-# ==========================
-# PROGRAM UTAMA
-# ==========================
-def main():
-    while True:
-        user = login()
-        role = user["role"]
-
-        if role == "dokter":
-            menu_dokter_flow()
-        else:
-            menu_pasien_flow()
-
-
-# ==========================
-# EKSEKUSI
-# ==========================
 if __name__ == "__main__":
-    main()
+    app = MainApp()
+    app.run()

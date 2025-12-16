@@ -30,4 +30,38 @@ class Admin:
                 "username": data[1],
                 "role": data[2]
             }
-        return {"status": False}
+        return {"status": False, "message": "Username atau password salah"}
+    
+    @staticmethod
+    def get_all():
+        """Ambil semua data admin"""
+        cursor.execute("SELECT * FROM admin")
+        return cursor.fetchall()
+    
+    @staticmethod
+    def get_by_username(username):
+        """Ambil data admin berdasarkan username"""
+        cursor.execute("SELECT * FROM admin WHERE username=%s", (username,))
+        return cursor.fetchone()
+    
+    @staticmethod
+    def update_password(username, new_password):
+        """Update password admin"""
+        sql = "UPDATE admin SET password=%s WHERE username=%s"
+        try:
+            cursor.execute(sql, (new_password, username))
+            db.commit()
+            return True
+        except mysql.connector.Error as err:
+            return f"Gagal update password: {err}"
+    
+    @staticmethod
+    def create_user(username, password, role):
+        """Buat user admin baru (untuk registrasi pasien)"""
+        sql = "INSERT INTO admin (username, password, role) VALUES (%s, %s, %s)"
+        try:
+            cursor.execute(sql, (username, password, role))
+            db.commit()
+            return True
+        except mysql.connector.Error as err:
+            return f"Gagal membuat user: {err}"

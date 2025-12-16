@@ -13,7 +13,7 @@ cursor = db.cursor()
 
 
 class Pendaftaran:
-    def __init__(self, nik, nama, tgllhr, jk, no_telp, keluhan):
+    def __init__(self, nik=None, nama=None, tgllhr=None, jk=None, no_telp=None, keluhan=None):
         self.nik = nik
         self.nama = nama
         self.tgllhr = tgllhr
@@ -42,6 +42,71 @@ class Pendaftaran:
             return True
         except mysql.connector.Error as err:
             return f"Gagal menyimpan data: {err}"
+    
+    @staticmethod
+    def get_all():
+        """Ambil semua data pendaftaran"""
+        sql = """
+        SELECT nik, nama, tgllhr, jk, no_telp, keluhan
+        FROM pendaftaran
+        ORDER BY nik DESC
+        """
+        try:
+            cursor.execute(sql)
+            return cursor.fetchall()
+        except mysql.connector.Error as err:
+            print(f"Error get_all pendaftaran: {err}")
+            return []
+    
+    @staticmethod
+    def get_by_id(id_pendaftaran):
+        """Ambil data pendaftaran berdasarkan ID"""
+        sql = "SELECT * FROM pendaftaran WHERE id_pendaftaran=%s"
+        try:
+            cursor.execute(sql, (id_pendaftaran,))
+            return cursor.fetchone()
+        except:
+            return None
+    
+    @staticmethod
+    def get_by_nik(nik):
+        """Ambil data pendaftaran berdasarkan NIK"""
+        sql = "SELECT nik, nama, tgllhr, jk, no_telp, keluhan FROM pendaftaran WHERE nik=%s ORDER BY nik DESC"
+        try:
+            cursor.execute(sql, (nik,))
+            return cursor.fetchall()
+        except mysql.connector.Error as err:
+            print(f"Error get_by_nik: {err}")
+            return []
+    
+    @staticmethod
+    def update(nik, nama, tgllhr, jk, no_telp, keluhan, old_nik=None):
+        """Update data pendaftaran berdasarkan NIK"""
+        if old_nik is None:
+            old_nik = nik
+        
+        sql = """
+        UPDATE pendaftaran 
+        SET nik=%s, nama=%s, tgllhr=%s, jk=%s, no_telp=%s, keluhan=%s
+        WHERE nik=%s
+        """
+        try:
+            cursor.execute(sql, (nik, nama, tgllhr, jk, no_telp, keluhan, old_nik))
+            db.commit()
+            return True
+        except mysql.connector.Error as err:
+            return f"Gagal update: {err}"
+    
+    @staticmethod
+    def delete(nik):
+        """Hapus data pendaftaran berdasarkan NIK"""
+        sql = "DELETE FROM pendaftaran WHERE nik=%s"
+        try:
+            cursor.execute(sql, (nik,))
+            db.commit()
+            return True
+        except mysql.connector.Error as err:
+            return f"Gagal hapus: {err}"
 
 
 # ==========================

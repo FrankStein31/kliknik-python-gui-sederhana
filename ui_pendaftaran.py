@@ -298,6 +298,7 @@ class Ui_FormDaftarPasien(object):
         font.setBold(True)
         font.setWeight(75)
         self.btnDaftar.setFont(font)
+        self.btnDaftar.setStyleSheet("QPushButton{background:#2ECC71;color:white;border-radius:5px}QPushButton:hover{background:#27AE60}QPushButton:pressed{background:#229954}")
         self.btnDaftar.setObjectName("btnDaftar")
         self.footerLayout.addWidget(self.btnDaftar)
         self.contentMainLayout.addWidget(self.footerWidget)

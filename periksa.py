@@ -51,16 +51,37 @@ class Pemeriksaan:
     # ==========================
     @staticmethod
     def get_all():
+        """Ambil semua data pemeriksaan dengan atau tanpa join"""
         sql = """
-        SELECT p.id_pemeriksaan, p.nik, d.nama,
-               p.diagnosa, p.resep,
-               p.total_obat, p.total_biaya
+        SELECT p.id_pemeriksaan, p.nik, p.diagnosa, p.resep, p.total_obat, p.total_biaya
         FROM pemeriksaan p
-        JOIN pendaftaran d ON p.nik = d.nik
         ORDER BY p.id_pemeriksaan DESC
         """
-        cursor.execute(sql)
-        return cursor.fetchall()
+        try:
+            cursor.execute(sql)
+            return cursor.fetchall()
+        except mysql.connector.Error as err:
+            print(f"Error get_all pemeriksaan: {err}")
+            return []
+    
+    @staticmethod
+    def get_all_with_name():
+        """Ambil semua data pemeriksaan dengan nama dari pasien atau pendaftaran"""
+        sql = """
+        SELECT p.id_pemeriksaan, p.nik, 
+               COALESCE(pa.nama, 'Unknown') as nama,
+               p.diagnosa, p.resep, p.total_obat, p.total_biaya
+        FROM pemeriksaan p
+        LEFT JOIN pasien pa ON p.nik = pa.nik
+        ORDER BY p.id_pemeriksaan DESC
+        """
+        try:
+            cursor.execute(sql)
+            return cursor.fetchall()
+        except mysql.connector.Error as err:
+            print(f"Error get_all_with_name: {err}")
+            # Fallback ke query sederhana
+            return Pemeriksaan.get_all()
 
     # ==========================
     # UPDATE PEMERIKSAAN
@@ -97,6 +118,61 @@ class Pemeriksaan:
             return True
         except mysql.connector.Error as err:
             return f"Gagal hapus pemeriksaan: {err}"
+    
+    @staticmethod
+    def get_by_nik(nik):
+        """Ambil pemeriksaan berdasarkan NIK"""
+        sql = """
+        SELECT p.id_pemeriksaan, p.nik, 
+               COALESCE(pa.nama, 'Unknown') as nama,
+               p.diagnosa, p.resep, p.total_obat, p.total_biaya
+        FROM pemeriksaan p
+        LEFT JOIN pasien pa ON p.nik = pa.nik
+        WHERE p.nik = %s
+        ORDER BY p.id_pemeriksaan DESC
+        """
+        try:
+            cursor.execute(sql, (nik,))
+            return cursor.fetchall()
+        except mysql.connector.Error as err:
+            print(f"Error get_by_nik: {err}")
+            return []
+    
+    @staticmethod
+    def get_by_id(id_pemeriksaan):
+        """Ambil pemeriksaan berdasarkan ID"""
+        sql = "SELECT * FROM pemeriksaan WHERE id_pemeriksaan = %s"
+        try:
+            cursor.execute(sql, (id_pemeriksaan,))
+            return cursor.fetchone()
+        except:
+            return None
+    
+    @staticmethod
+    def get_with_pendaftaran():
+        """Ambil pemeriksaan dengan data pendaftaran"""
+        sql = """
+        SELECT 
+            p.id_pemeriksaan,
+            p.nik,
+            COALESCE(pa.nama, pd.nama, 'Unknown') as nama,
+            pd.keluhan,
+            p.diagnosa,
+            p.resep,
+            p.total_biaya,
+            p.total_obat
+        FROM pemeriksaan p
+        LEFT JOIN pasien pa ON p.nik = pa.nik
+        LEFT JOIN pendaftaran pd ON p.nik = pd.nik
+        GROUP BY p.id_pemeriksaan, p.nik, p.diagnosa, p.resep, p.total_biaya, p.total_obat
+        ORDER BY p.id_pemeriksaan DESC
+        """
+        try:
+            cursor.execute(sql)
+            return cursor.fetchall()
+        except mysql.connector.Error as err:
+            print(f"Error get_with_pendaftaran: {err}")
+            return Pemeriksaan.get_all()
 
 
 # ==========================
