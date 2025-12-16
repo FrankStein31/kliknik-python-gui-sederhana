@@ -1,15 +1,4 @@
-"""
-Window Pemeriksaan - Menghubungkan         # Connect buttons
-        self.ui.btnTambah.clicked.connect(self.tambah_pemeriksaan)
-        self.ui.btnUpdate.clicked.connect(self.update_pemeriksaan)
-        self.ui.btnHapus.clicked.connect(self.hapus_pemeriksaan)
-        self.ui.btnBersih.clicked.connect(self.clear_form)
-        self.ui.btnMenuProfil.clicked.connect(self.show_menu_dokter)
-        self.ui.btnMenuPemeriksaan.clicked.connect(self.show_pemeriksaan)
-        
-        # Ubah label menu profil untuk dokter - Data Dokter langsung
-        self.ui.btnMenuProfil.setText("👨‍⚕️ Data Dokter")saan dengan Backend
-"""
+
 from PyQt5.QtWidgets import QWidget, QMessageBox, QTableWidgetItem, QDesktopWidget, QPushButton
 from PyQt5.QtCore import Qt, pyqtSignal
 from ui_pemeriksaan import Ui_FormPemeriksaan

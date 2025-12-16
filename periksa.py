@@ -1,9 +1,3 @@
-"""
-Pemeriksaan Class - Model untuk data pemeriksaan pasien
-Mengelola CRUD operations untuk data pemeriksaan dan resep
-
-Class ini standalone untuk mengelola data pemeriksaan medis.
-"""
 import mysql.connector
 from datetime import datetime
 
